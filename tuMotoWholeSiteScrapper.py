@@ -31,18 +31,18 @@ for i in range(0, len(makers)):
                     maker = tech.next.next.next.text
                 elif tech.text == 'Tipo:':
                     type = tech.next.next.next.text
-            url = browser.url
+            link = browser.url
             title = browser.find('h1').text
             location = browser.find(class_='ubic').text
             year = browser.find_all(class_="atrDest")[0].text
-            img = browser.find(class_="first-img").attrs['data-src-original']
+            img = browser.find(class_="src-delay-initiation").attrs['data-src-original']
             kms = browser.find_all(class_="atrDest")[1].text.replace('|', '').replace('km', '').strip()
             price = browser.find(class_='ch-price').text.replace('\t', '').replace('$', '').replace('.', '')
 
             with open('motos.csv', 'a', newline='') as csvfile:
                 csv_writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-                csv_writer.writerow([model, kms, img, title, url, price, year, maker])
-            print("{};{};{};{};{};{};{};{}".format(model, kms, img, title, url, price, year, maker))
+                csv_writer.writerow([model, kms, img, title, link, price, year, maker])
+            print("{};{};{};{};{};{};{};{}".format(model, kms, img, title, link, price, year, maker))
 
         browser.follow_link(next_page[0])
         next_page = browser.find_all('a', class_="prefetch")
